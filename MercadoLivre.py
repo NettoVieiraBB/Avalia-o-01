@@ -18,8 +18,12 @@ class MecardolivrecapturaSpider(scrapy.Spider):
                 callback=self.parse_detail
             )
 
+        # next_page = response.xpath(
+        #     './/a[contains(@class,"prefetch")]/@href')
         next_page = response.xpath(
-            './/a[contains(@class,"prefetch")]/@href')
+            './/a[contains(@class,"prefetch")]/@href').extract_first()
+        
+        yield response.follow(url=next_page)
 
     def parse_detail(self, response):
 
